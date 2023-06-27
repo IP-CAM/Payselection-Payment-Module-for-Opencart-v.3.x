@@ -1,0 +1,63 @@
+{{ header }}{{ column_left }}
+<script type="text/javascript" src="https://widget.payselection.com/lib/pay-widget.js"></script>
+<script type="text/javascript">
+    this.pay = function() {
+        var widget = new pw.PayWidget();
+        console.log("PAY");
+        widget.pay({
+                // serviceId - Идентификатор ТСП
+                serviceId: "{{serviceId}}",
+                // key - public key из личного кабинета мерчанта
+                key: "{{key}}",
+                // logger -  для включения расширенного логирования при отладке
+                logger: true,
+            },
+            // Запрос с минимальным количеством параметров
+            {
+                MetaData: {
+                    PaymentType: "Pay",
+                },
+                PaymentRequest: {
+                    OrderId: "{{OrderId}}",
+                    Amount: "{{Amount}}",
+                    Currency: "{{Currency}}",
+                    Description: "{{Comment}}",
+                    ExtraData: JSON.parse('{{ExtraData}}'),
+                },
+            },
+            // Запрос с максимальным количеством параметров
+            // См. запрос Create
+            {
+                // Варианты ключей которые могут приходить по колбекам:
+                // для onSuccess -> PAY_WIDGET:TRANSACTION_SUCCESS, PAY_WIDGET:CLOSE_AFTER_SUCCESS
+                // для onError -> PAY_WIDGET:TRANSACTION_FAIL, PAY_WIDGET:CREATE_NETWORK_ERROR, PAY_WIDGET:CREATE_BAD_REQUEST_ERROR, PAY_WIDGET:CLOSE_AFTER_FAIL,PAY_WIDGET:CLOSE_AFTER_CREATE_NETWORK_ERROR, PAY_WIDGET:CREATE_BAD_REQUEST_ERROR   
+                // для onClose -> PAY_WIDGET:CLOSE_BEFORE_PAY
+                onSuccess: function (res) {
+                    console.log("onSuccess from shop", res);
+                    if (res.returnUrl) {
+                        window.location.href = res.returnUrl;
+                    }
+                },
+                onError: function (res) {
+                    console.log("onFail from shop", res);
+                    if (res.returnUrl) {
+                        window.location.href = res.returnUrl;
+                    } else {
+                        window.location.reload();
+                    }
+                },
+                onClose: function (res) {
+                    console.log("onClose from shop", res);
+                    if (res.returnUrl) {
+                      window.location.href = res.returnUrl;
+                    } else {
+                        window.location.reload();
+                    }
+                },
+            },
+        );
+    };
+    pay();
+</script>
+<div class="whitespace" style="height:500px;"></div>
+{{ footer }}
