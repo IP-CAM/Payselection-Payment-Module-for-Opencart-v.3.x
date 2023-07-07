@@ -15,7 +15,7 @@
             // Запрос с минимальным количеством параметров
             {
                 MetaData: {
-                    PaymentType: "Pay",
+                    PaymentType: "{{payType}}",
                 },
                 PaymentRequest: {
                     OrderId: "{{OrderId}}",
@@ -24,6 +24,9 @@
                     Description: "{{Comment}}",
                     ExtraData: JSON.parse('{{ExtraData}}'),
                 },
+                {% if(ReceiptData) %}
+                ReceiptData: JSON.parse('{{ReceiptData}}'),
+                {% endif %}
             },
             // Запрос с максимальным количеством параметров
             // См. запрос Create

@@ -31,6 +31,20 @@ $_['entry_taxType']     = 'Default VAT';
 $_['entry_ofd_enabled']     = 'Yes';
 $_['entry_ofd_disabled']    = 'No';
 $_['entry_order_status']    = 'Payed order status';
+
+$_['entry_order_status2'] = 'Order status when holding funds';
+$_['entry_order_status3'] = 'Order status when canceled payment';
+$_['entry_order_status4'] = 'Order status in case of payment error';
+$_['entry_order_status4'] = 'Order status when return payment';
+$_['entry_order_fiscalization'] = 'fiscalization';
+$_['entry_order_fiscalization_on'] = 'on';
+$_['entry_order_fiscalization_off'] = 'off';
+$_['entry_order_fiscalization_coment'] = 'If fiscalization is included, you must fill in the fields below';
+$_['entry_order_email'] = 'E-mail Companies';
+$_['entry_order_inn'] = 'TIN';
+$_['entry_order_area'] = 'Place of settlement. Site address';
+
+
 $_['entry_geoZone']         = 'Geo Zone';
 
 $_['entry_paymentMethod']           = 'Payment type';

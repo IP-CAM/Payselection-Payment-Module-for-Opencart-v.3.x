@@ -4,9 +4,6 @@ class ControllerExtensionPaymentPayselection extends Controller
 {
     private $error = array();
 
-    /**
-     * settings
-     */
     public function index()
     {
         $this->load->language('extension/payment/payselection');
@@ -19,36 +16,37 @@ class ControllerExtensionPaymentPayselection extends Controller
             $this->response->redirect($this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=payment', 'SSL'));
         }
 
-        // header of page
+
         $data['heading_title'] = $this->language->get('heading_title');
 
-        // breadcrumbs
+
         $data['breadcrumbs'] = array();
-        array_push($data['breadcrumbs'],
-            array(  // main
+        array_push(
+            $data['breadcrumbs'],
+            array(
                 'text' => $this->language->get('text_home'),
                 'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'], 'SSL')
             ),
-            array(  // payment
+            array(
                 'text' => $this->language->get('text_payment'),
                 'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'], 'SSL')
             ),
-            array(  // Payment by
+            array(
                 'text' => $this->language->get('heading_title'),
                 'href' => $this->url->link('extension/payment/payselection', 'user_token=' . $this->session->data['user_token'], 'SSL')
             )
         );
 
-        // buttons
+
         $data['action'] = $this->url->link('extension/payment/payselection', 'user_token=' . $this->session->data['user_token'], 'SSL');
         $data['cancel'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'], 'SSL');
         $data['button_save'] = $this->language->get('button_save');
         $data['button_cancel'] = $this->language->get('button_cancel');
 
-        // panel heading
+
         $data['text_settings'] = $this->language->get('text_settings');
 
-        // module state
+
         $data['entry_status'] = $this->language->get('status');
         $data['status_enabled'] = $this->language->get('status_enabled');
         $data['status_disabled'] = $this->language->get('status_disabled');
@@ -75,6 +73,7 @@ class ControllerExtensionPaymentPayselection extends Controller
         $data['stage_one'] = $this->language->get('stage_one');
         $data['stage_two'] = $this->language->get('stage_two');
         $data['payment_payselection_stage'] = $this->config->get('payment_payselection_stage');
+        $data['payment_payselection_fiscalization'] = $this->config->get('payment_payselection_fiscalization');
 
         $data['entry_order_status'] = $this->language->get('entry_order_status');
 
@@ -83,16 +82,58 @@ class ControllerExtensionPaymentPayselection extends Controller
         } else {
             $data['payment_payselection_order_status_id'] = $this->config->get('payment_payselection_order_status_id');
         }
+        if (isset($this->request->post['payment_payselection_order_status2_id'])) {
+            $data['payment_payselection_order_status2_id'] = $this->request->post['payment_payselection_order_status2_id'];
+        } else {
+            $data['payment_payselection_order_status2_id'] = $this->config->get('payment_payselection_order_status2_id');
+        }
+
+        if (isset($this->request->post['payment_payselection_order_status3_id'])) {
+            $data['payment_payselection_order_status3_id'] = $this->request->post['payment_payselection_order_status3_id'];
+        } else {
+            $data['payment_payselection_order_status3_id'] = $this->config->get('payment_payselection_order_status3_id');
+        }
+
+
+        if (isset($this->request->post['payment_payselection_order_status4_id'])) {
+            $data['payment_payselection_order_status4_id'] = $this->request->post['payment_payselection_order_status4_id'];
+        } else {
+            $data['payment_payselection_order_status4_id'] = $this->config->get('payment_payselection_order_status4_id');
+        }
+
+        
+        if (isset($this->request->post['payment_payselection_order_status5_id'])) {
+            $data['payment_payselection_order_status5_id'] = $this->request->post['payment_payselection_order_status5_id'];
+        } else {
+            $data['payment_payselection_order_status5_id'] = $this->config->get('payment_payselection_order_status5_id');
+        }
+
+        
+        $data['entry_order_status2'] = $this->language->get('entry_order_status2');
+        $data['entry_order_status3'] = $this->language->get('entry_order_status3');
+        $data['entry_order_status4'] = $this->language->get('entry_order_status4');
+        $data['entry_order_status5'] = $this->language->get('entry_order_status5');
+        $data['entry_order_fiscalization'] = $this->language->get('entry_order_fiscalization');
+        $data['entry_order_fiscalization_on'] = $this->language->get('entry_order_fiscalization_on');
+        $data['entry_order_fiscalization_off'] = $this->language->get('entry_order_fiscalization_off');
+        $data['entry_order_fiscalization_coment'] = $this->language->get('entry_order_fiscalization_coment');
+        $data['entry_order_email'] = $this->language->get('entry_order_email');
+        $data['entry_order_inn'] = $this->language->get('entry_order_inn');
+        $data['entry_order_area'] = $this->language->get('entry_order_area');
 
         $this->load->model('localisation/order_status');
 
         $data['order_statuses'] = $this->model_localisation_order_status->getOrderStatuses();
+        $data['order_statuses2'] = $this->model_localisation_order_status->getOrderStatuses();
+        $data['order_statuses3'] = $this->model_localisation_order_status->getOrderStatuses();
+        $data['order_statuses4'] = $this->model_localisation_order_status->getOrderStatuses();
+        $data['order_statuses5'] = $this->model_localisation_order_status->getOrderStatuses();
 
 
         $data['entry_sortOrder'] = $this->language->get('entry_sortOrder');
         $data['payment_payselection_sort_order'] = $this->config->get('payment_payselection_sort_order');
 
-        // logging
+
         $data['entry_logging'] = $this->language->get('logging');
         $data['logging_enabled'] = $this->language->get('logging_enabled');
         $data['logging_disabled'] = $this->language->get('logging_disabled');
@@ -122,18 +163,21 @@ class ControllerExtensionPaymentPayselection extends Controller
         $data['entry_taxType'] = $this->language->get('entry_taxType');
         $data['taxType_list'] = $this->getTaxTypeList();
         $data['payment_payselection_taxType'] = $this->config->get('payment_payselection_taxType');
+        $data['payment_payselection_email'] = $this->config->get('payment_payselection_email');
+        $data['payment_payselection_inn'] = $this->config->get('payment_payselection_inn');
+        $data['payment_payselection_area'] = $this->config->get('payment_payselection_area');
 
 
-        //FFD method
+
         $data['entry_paymentMethod'] = $this->language->get('entry_paymentMethod');
         $data['ffd_paymentMethodTypeList'] = $this->getPaymentMethodTypeList();
         $data['payment_payselection_paymentMethodType'] = $this->config->get('payment_payselection_paymentMethodType');
 
-        //FFD delivery method
+
         $data['entry_paymentMethodDelivery'] = $this->language->get('entry_paymentMethodDelivery');
         $data['payment_payselection_paymentMethodTypeDelivery'] = $this->config->get('payment_payselection_paymentMethodTypeDelivery');
 
-        //FFD object
+
         $data['entry_paymentObject'] = $this->language->get('entry_paymentObject');
         $data['ffd_paymentObjectTypeList'] = $this->getPaymentObjectTypeList();
         $data['payment_payselection_paymentObjectType'] = $this->config->get('payment_payselection_paymentObjectType');
@@ -142,13 +186,11 @@ class ControllerExtensionPaymentPayselection extends Controller
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
 
-        //template rendering
+
         $this->response->setOutput($this->load->view('extension/payment/payselection', $data));
     }
 
-    /**
-     * @return bool
-     */
+
     private function validate()
     {
         if (!$this->user->hasPermission('modify', 'extension/payment/payselection')) {
@@ -160,9 +202,7 @@ class ControllerExtensionPaymentPayselection extends Controller
 
 
 
-    /**
-     * @return array
-     */
+
     private function getCurrencyList()
     {
         return [
@@ -190,10 +230,7 @@ class ControllerExtensionPaymentPayselection extends Controller
     }
 
 
-    /**
 
-     * @return array
-     */
     private function getTaxTypeList()
     {
 
@@ -211,16 +248,8 @@ class ControllerExtensionPaymentPayselection extends Controller
                 'alphabetic' => $this->language->get('entry_vat10')
             ],
             [
-                'numeric' => 3,
-                'alphabetic' => $this->language->get('entry_vat18')
-            ],
-            [
                 'numeric' => 4,
                 'alphabetic' => $this->language->get('entry_vat10_110')
-            ],
-            [
-                'numeric' => 5,
-                'alphabetic' => $this->language->get('entry_vat18_118')
             ],
 
             [
@@ -235,9 +264,7 @@ class ControllerExtensionPaymentPayselection extends Controller
     }
 
 
-    /**
-     * @return array
-     */
+
     private function getTaxSystemList()
     {
         return [
@@ -268,9 +295,7 @@ class ControllerExtensionPaymentPayselection extends Controller
         ];
     }
 
-    /**
-     * @return array
-     */
+
     private function getFFDVersionlist()
     {
         return [
@@ -282,16 +307,11 @@ class ControllerExtensionPaymentPayselection extends Controller
                 'value' => 'v105',
                 'title' => '1.05'
             ],
-//            [
-//                'value' => 'v11,
-//                'title' => '1.1'
-//            ],
+
         ];
     }
 
-    /**
-     * @return array
-     */
+
     private function getPaymentMethodTypeList()
     {
         return [
@@ -327,9 +347,7 @@ class ControllerExtensionPaymentPayselection extends Controller
         ];
     }
 
-    /**
-     * @return array
-     */
+
     private function getPaymentObjectTypeList()
     {
         return [
@@ -353,18 +371,12 @@ class ControllerExtensionPaymentPayselection extends Controller
                 'numeric' => 5,
                 'alphabetic' => $this->language->get('entry_payment_object_5')
             ],
-//            [
-//                'numeric' => 6,
-//                'alphabetic' => $this->language->get('entry_payment_object_6')
-//            ],
+
             [
                 'numeric' => 7,
                 'alphabetic' => $this->language->get('entry_payment_object_7')
             ],
-//            [
-//                'numeric' => 8,
-//                'alphabetic' => $this->language->get('entry_payment_object_8')
-//            ],
+
             [
                 'numeric' => 9,
                 'alphabetic' => $this->language->get('entry_payment_object_9')
@@ -373,10 +385,7 @@ class ControllerExtensionPaymentPayselection extends Controller
                 'numeric' => 10,
                 'alphabetic' => $this->language->get('entry_payment_object_10')
             ],
-//            [
-//                'numeric' => 11,
-//                'alphabetic' => $this->language->get('entry_payment_object_11')
-//            ],
+
             [
                 'numeric' => 12,
                 'alphabetic' => $this->language->get('entry_payment_object_12')
@@ -399,5 +408,4 @@ class ControllerExtensionPaymentPayselection extends Controller
             exit();
         }
     }
-
 }
